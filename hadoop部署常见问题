@@ -1,0 +1,18 @@
+1.no rount to host 
+查看防火墙是否关闭，如果确认关闭，查看ip是否修改正确，同时查看/etc/hosts文件是否配置。
+2.permision相关问题，是权限问题，执行下列代码
+chown -R hadoop:hadoop /home/hadoop
+chmod 700 /home/hadoop
+chmod 700 /home/hadoop/.ssh
+chmod 644 /home/hadoop/.ssh/authorized_keys
+chmod 600 /home/hadoop/.ssh/id_rsa
+同时查看hadoop文件夹下的每个文件是否都是hadoop组下的hadoop用户，否则你就要重新设置用户了。
+3.没有namenode
+试试看重新格式化，hadoop namenode -format
+4.如果在hadoop集群下无法进行文件操作命令
+hadoop dfsadmin -safemode leave
+5.如果不是以上问题可以查看/hadoop/logs文件下的日志文件查看错误
+6.一般是主机可以调通，这样你就把主机的hadoop文件夹发给从机，同时将主机和从机hadoop文件夹下的data和tmp删除，然后重新创建，赋予755权限，另外将主机hadoop文件夹下的namenode文件夹删除
+重新在主机执行
+hadoop namenode -format
+start-all.sh
